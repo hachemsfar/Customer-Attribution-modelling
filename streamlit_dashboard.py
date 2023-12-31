@@ -64,7 +64,7 @@ with col2:
 
 # Time Series Analysis of Touchpoints
 st.subheader('Time Series Analysis of Touchpoints (Daily)')
-plt.figure(figsize=(23, 7))
+plt.figure(figsize=(11, 7))
 data['TIMESTAMP_TOUCHPOINT'] = pd.to_datetime(data['TIMESTAMP_TOUCHPOINT'], errors='coerce')
 data.set_index('TIMESTAMP_TOUCHPOINT').resample('D').size().plot()
 plt.axvline(x=pd.Timestamp('2019-12-23'), linestyle="--", linewidth=2, color="green")
