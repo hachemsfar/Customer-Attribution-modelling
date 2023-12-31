@@ -63,6 +63,8 @@ with col2:
     plt.pie(customer_dist_by_channel['CUSTOMERID'], labels=customer_dist_by_channel['MARKETINGCHANNEL'], autopct='%1.1f%%', startangle=90)
     st.pyplot()
 
+st.info("The pie charts show revenue distribution and customer distribution by marketing channel. The top revenue channels are Direct NON-BRAND and Referral, while the top customer channels are SEO_BRA and Referral.")
+
 # Time Series Analysis of Touchpoints
 st.subheader('Time Series Analysis of Touchpoints (Daily)')
 plt.figure(figsize=(11, 7))
@@ -73,6 +75,8 @@ plt.axvline(x=pd.Timestamp('2020-01-07'), linestyle="--", linewidth=2, color="gr
 plt.xlabel('Date')
 plt.ylabel('Number of Touchpoints')
 st.pyplot()
+
+st.info("The line chart shows the number of touchpoints over time. As you can see, there are more touchpoints during the Christmas holiday (between 23 December and 7 January).")
 
 # Further Data Exploration Using All Columns
 st.subheader('Distribution of Touchpoints by Year/Month/Hour of Day')
@@ -103,7 +107,11 @@ elif time_component == "Hour":
     sns.countplot(x='HOUR', data=data, ax=ax)
     ax.set_title('Distribution of Touchpoints by Hour of Day')
     st.pyplot(fig)
-
+elif time_component == "WeekDay":
+    fig, ax = plt.subplots(figsize=(11, 7))
+    sns.countplot(x='WEEKDAY', data=data, ax=ax)
+    ax.set_title('Distribution of Touchpoints by Day of the week')
+    st.pyplot(fig)
 
 # Analyzing the number of sessions per customer
 sessions_per_customer = data.groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
