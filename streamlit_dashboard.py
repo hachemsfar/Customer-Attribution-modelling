@@ -11,23 +11,25 @@ st.set_page_config(
     layout="centered",
 )
 
+# Hide Streamlit style
 hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            .row_heading.level0 {display:none}
-            .blank {display:none}
-            .dataframe {text-align: left !important}
-            </style>
-            """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+.row_heading.level0 {display:none}
+.blank {display:none}
+.dataframe {text-align: left !important}
+</style>
+"""
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
+# Disable deprecated pyplot global use warning
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Load the data from the provided file
 file_path = 'Customerattributiondata.csv'
 data = pd.read_csv(file_path, delimiter='\t')
-data2=data.copy()
+data2 = data.copy()
 
 # Display the first few rows of the dataset to understand its structure
 st.subheader('DataFrame Overview')
@@ -40,7 +42,11 @@ data.info(buf=buffer)
 s = buffer.getvalue()
 st.text(s)
 
-st.info("This DataFrame contains 13,304 rows and 5 columns. It consists of data about customer interactions, including customer IDs, session IDs, timestamp of touchpoints, marketing channels, and revenue. The DataFrame has 1142 non-null values for revenue, indicating that not all customers generated revenue.")
+# Provide information about the data
+st.info("""
+This overview of the DataFrame helps in understanding the initial data structure, including key columns like Customer ID, Session ID, Timestamp of Touchpoints, Marketing Channel, and Revenue.
+""")
+
 # Filter and prepare the revenue data
 df = data[data['REVENUE'].notnull() & (data['REVENUE'] != '')]
 df.loc[:, 'REVENUE'] = pd.to_numeric(df['REVENUE'], errors='coerce')
@@ -49,6 +55,8 @@ revenue_by_channel = df.groupby('MARKETINGCHANNEL')['REVENUE'].sum().reset_index
 # Set custom color palette for Seaborn plots
 custom_palette = "coolwarm"  # Using a named palette
 sns.set_palette(custom_palette)
+
+# Plotting Revenue Attribution by Marketing Channel
 col1, col2 = st.columns(2)
 with col1:
     st.subheader('Revenue Attribution by Marketing Channel')
@@ -64,7 +72,9 @@ with col2:
     plt.pie(customer_dist_by_channel['CUSTOMERID'], labels=customer_dist_by_channel['MARKETINGCHANNEL'], autopct='%1.1f%%', startangle=90)
     st.pyplot()
 
-st.info("The pie charts show revenue distribution and customer distribution by marketing channel. The top revenue channels are Direct NON-BRAND and Referral, while the top customer channels are SEO_BRA and Referral.")
+st.info("""
+The pie charts provide a visual comparison between revenue distribution and customer distribution across different marketing channels. This visualization is crucial for identifying which channels are most effective in revenue generation versus customer reach.
+""")
 
 # Time Series Analysis of Touchpoints
 st.subheader('Time Series Analysis of Touchpoints (Daily)')
@@ -77,7 +87,9 @@ plt.xlabel('Date')
 plt.ylabel('Number of Touchpoints')
 st.pyplot()
 
-st.info("The line chart shows the number of touchpoints over time. As you can see, there are more touchpoints during the Christmas holiday (between 23 December and 7 January).")
+st.info("""
+The time series analysis highlights the fluctuations in customer touchpoints over time. A significant increase in interactions is observed during the Christmas holidays, suggesting a seasonal impact on customer engagement.
+""")
 
 # Further Data Exploration Using All Columns
 st.subheader('Distribution of Touchpoints by Year/Month/Hour of Day')
@@ -90,7 +102,7 @@ data['DAY'] = data['TIMESTAMP_TOUCHPOINT'].dt.day
 data['HOUR'] = data['TIMESTAMP_TOUCHPOINT'].dt.hour
 data['WEEKDAY'] = data['TIMESTAMP_TOUCHPOINT'].dt.day_name()
 
-time_component = st.selectbox("Choose time component:", ["Year", "Month", "Hour","WeekDay"])
+time_component = st.selectbox("Choose time component:", ["Year", "Month", "Hour", "WeekDay"])
 
 # Analyzing distribution of touchpoints over different time components
 if time_component == "Year":
@@ -119,6 +131,7 @@ st.info("""
 - Customer engagement is highest during the end of the day.
 - Customer engagement is highest during the weekend.
 """)
+
 # Analyzing the number of sessions per customer"
 sessions_per_customer = data.groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
 
@@ -137,4 +150,6 @@ ax.set_ylabel('Frequency')
 # Display the plot in Streamlit
 st.pyplot(fig)
 
-st.info("Most customers (70%) have only 1 session during this period")
+st.info("""
+The histogram indicates a high concentration of customers with only one session, suggesting that a majority of the customer base might be engaging in one-time interactions. This finding can be pivotal for strategies focusing on customer retention and repeated engagement.
+""")
