@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
-import io
+import matplotlib.pyplot as plt
 import seaborn as sns
+import io
 
 # Set Streamlit page configuration
 st.set_page_config(
@@ -60,15 +60,17 @@ sns.set_palette(custom_palette)
 col1, col2 = st.columns(2)
 with col1:
     st.subheader('Revenue Attribution by Marketing Channel')
-    fig = px.pie(revenue_by_channel, values='REVENUE', names='MARKETINGCHANNEL', title='Revenue Attribution by Marketing Channel')
-    st.plotly_chart(fig)
+    plt.figure(figsize=(10, 6))
+    plt.pie(revenue_by_channel['REVENUE'], labels=revenue_by_channel['MARKETINGCHANNEL'], autopct='%1.1f%%', startangle=90)
+    st.pyplot()
 
 # Plotting Distribution of Customers per Marketing Channel as a Pie Chart
 with col2:
     st.subheader('Distribution of Customers per Marketing Channel')
     customer_dist_by_channel = data.groupby('MARKETINGCHANNEL')['CUSTOMERID'].nunique().sort_values(ascending=False).reset_index()
-    fig = px.pie(customer_dist_by_channel, values='CUSTOMERID', names='MARKETINGCHANNEL', title='Distribution of Customers per Marketing Channel')
-    st.plotly_chart(fig)
+    plt.figure(figsize=(10, 6))
+    plt.pie(customer_dist_by_channel['CUSTOMERID'], labels=customer_dist_by_channel['MARKETINGCHANNEL'], autopct='%1.1f%%', startangle=90)
+    st.pyplot()
 
 st.info("""
 The pie charts show revenue distribution and customer distribution by marketing channel. The top revenue channels are Direct NON-BRAND and SEO_BRAND, while the top customer channels are Direct NON-BRAND and SEO_BRAND.
@@ -76,11 +78,14 @@ The pie charts show revenue distribution and customer distribution by marketing 
 
 # Time Series Analysis of Touchpoints
 st.subheader('Time Series Analysis of Touchpoints (Daily)')
+plt.figure(figsize=(11, 7))
 data['TIMESTAMP_TOUCHPOINT'] = pd.to_datetime(data['TIMESTAMP_TOUCHPOINT'], errors='coerce')
 data.set_index('TIMESTAMP_TOUCHPOINT').resample('D').size().plot()
-fig = px.line(data, x='TIMESTAMP_TOUCHPOINT', title='Number of Touchpoints Over Time (Daily)')
-fig.add_shape(dict(type='line', x0='2019-12-23', x1='2020-01-07', y0=0, y1=1, line=dict(color='green', width=2, dash='dash')))
-st.plotly_chart(fig)
+plt.axvline(x=pd.Timestamp('2019-12-23'), linestyle="--", linewidth=2, color="green")
+plt.axvline(x=pd.Timestamp('2020-01-07'), linestyle="--", linewidth=2, color="green")
+plt.xlabel('Date')
+plt.ylabel('Number of Touchpoints')
+st.pyplot()
 
 st.info("""
 The line chart shows the number of touchpoints over time. As you can see, the touchpoints increase significantly around the Christmas holiday (between 23 December and 7 January).
@@ -133,10 +138,17 @@ sessions_per_customer = data.groupby('CUSTOMERID')['SESSIONID'].nunique().sort_v
 st.subheader('Distribution of Number of Sessions per Customer')
 
 # Plotting with Matplotlib
-fig = px.histogram(sessions_per_customer, x='SESSIONID', nbins=50, title='Distribution of Number of Sessions per Customer')
-fig.update_layout(xaxis=dict(range=[0, 10]), title='Distribution of Number of Sessions per Customer', xaxis_title='Number of Sessions', yaxis_title='Frequency')
-st.plotly_chart(fig)
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.hist(sessions_per_customer, bins=50, edgecolor='black', alpha=0.7)
 
+ax.set_xlim(0, 10)
+
+ax.set_title('Distribution of Number of Sessions per Customer')
+ax.set_xlabel('Number of Sessions')
+ax.set_ylabel('Frequency')
+
+# Display the plot in Streamlit
+st.pyplot(fig)
 
 st.info("The histogram indicates a high concentration of customers with only one session, suggesting that a majority of the customer base might be engaging in one-time interactions. This finding can be pivotal for strategies focusing on customer retention and repeated engagement.")
 
