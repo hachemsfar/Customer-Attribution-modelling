@@ -89,7 +89,7 @@ data['DAY'] = data['TIMESTAMP_TOUCHPOINT'].dt.day
 data['HOUR'] = data['TIMESTAMP_TOUCHPOINT'].dt.hour
 data['WEEKDAY'] = data['TIMESTAMP_TOUCHPOINT'].dt.day_name()
 
-time_component = st.selectbox("Choose time component:", ["Year", "Month", "Hour"])
+time_component = st.selectbox("Choose time component:", ["Year", "Month", "Hour","WeekDay"])
 
 # Analyzing distribution of touchpoints over different time components
 if time_component == "Year":
