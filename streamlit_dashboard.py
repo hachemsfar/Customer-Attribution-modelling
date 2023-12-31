@@ -109,7 +109,7 @@ sessions_per_customer = data.groupby('CUSTOMERID')['SESSIONID'].nunique().sort_v
 st.subheader('Distribution of Number of Sessions per Customer')
 
 plt.figure(figsize=(10, 6))
-sns.histplot(sessions_per_customer, bins=50, kde=False)
+sns.histplot(sessions_per_customer, bins=45, kde=False)
 
 plt.xlim(0, 10)
 
