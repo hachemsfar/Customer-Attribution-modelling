@@ -44,7 +44,7 @@ st.text(s)
 
 # Provide information about the data
 st.info("""
-This DataFrame contains 13,304 rows and 5 columns. It consists of data about customer interactions, including customer IDs, session IDs, timestamp of touchpoints, marketing channels, and revenue. The DataFrame has 1142 non-null values for revenue, indicating that not all customers generated revenue.
+This DataFrame contains 13,304 rows and 5 columns. It features data related to customer interactions, including customer IDs, session IDs, timestamp of touchpoints, marketing channels, and revenue. The DataFrame has 1142 non-null values for revenue, indicating that not all customers generated revenue.
 """)
 
 # Filter and prepare the revenue data
@@ -73,7 +73,7 @@ with col2:
     st.pyplot()
 
 st.info("""
-The pie charts show revenue distribution and customer distribution by marketing channel. The top revenue channels are Direct NON-BRAND and Referral, while the top customer channels are SEO_BRA and Referral.
+The pie charts show revenue distribution and customer distribution by marketing channel. The top revenue channels are Direct NON-BRAND and SEO_BRAND, while the top customer channels are Direct NON-BRAND and SEO_BRAND.
 """)
 
 # Time Series Analysis of Touchpoints
@@ -88,7 +88,7 @@ plt.ylabel('Number of Touchpoints')
 st.pyplot()
 
 st.info("""
-The line chart shows the number of touchpoints over time. As you can see, there are more touchpoints during the Christmas holiday (between 23 December and 7 January).
+The line chart shows the number of touchpoints over time. As you can see, the touchpoints increase significantly around the Christmas holiday (between 23 December and 7 January).
 """)
 
 # Further Data Exploration Using All Columns
