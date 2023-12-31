@@ -42,7 +42,7 @@ st.text(s)
 
 # Filter and prepare the revenue data
 df = data[data['REVENUE'].notnull() & (data['REVENUE'] != '')]
-df['REVENUE'] = pd.to_numeric(df['REVENUE'], errors='coerce')
+df.loc[:, 'REVENUE'] = pd.to_numeric(df['REVENUE'], errors='coerce')
 revenue_by_channel = df.groupby('MARKETINGCHANNEL')['REVENUE'].sum().reset_index()
 
 # Set custom color palette for Seaborn plots
