@@ -127,7 +127,7 @@ elif time_component == "WeekDay":
     st.pyplot(fig)
 
 st.info("""
-- Customer engagement is highest during the beginning and end of the year.
+- Customer engagement is highest during the end of the year.
 - Customer engagement is highest during the end of the day.
 - Customer engagement is highest during the weekend.
 """)
