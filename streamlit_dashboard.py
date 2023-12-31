@@ -113,7 +113,12 @@ elif time_component == "WeekDay":
     ax.set_title('Distribution of Touchpoints by Day of the week')
     st.pyplot(fig)
 
-# Analyzing the number of sessions per customer
+st.info("""
+- Customer engagement is highest during the beginning and end of the year.
+- Customer engagement is highest during the end of the day.
+- Customer engagement is highest during the weekend.
+""")
+# Analyzing the number of sessions per customer"
 sessions_per_customer = data.groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
 
 st.subheader('Distribution of Number of Sessions per Customer')
