@@ -3,7 +3,6 @@
 To run it locally: streamlit run "streamlit_dashboard.py"
 
 Dashboard:
-
 https://appdashboardpy-zhybzgvpfxuwkhadnswpk8.streamlit.app/
 
 Notebook:
