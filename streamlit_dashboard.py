@@ -105,7 +105,6 @@ elif time_component == "Hour":
 
 # Analyzing the number of sessions per customer
 sessions_per_customer = data.groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
-sessions_per_customer = sessions_per_customer.dropna()
 st.subheader('Distribution of Number of Sessions per Customer')
 plt.figure(figsize=(10, 6))
 sns.histplot(sessions_per_customer, bins=50, kde=False)
