@@ -40,6 +40,7 @@ data.info(buf=buffer)
 s = buffer.getvalue()
 st.text(s)
 
+st.info("This DataFrame contains 13,304 rows and 5 columns. It consists of data about customer interactions, including customer IDs, session IDs, timestamp of touchpoints, marketing channels, and revenue. The DataFrame has 1142 non-null values for revenue, indicating that not all customers generated revenue.")
 # Filter and prepare the revenue data
 df = data[data['REVENUE'].notnull() & (data['REVENUE'] != '')]
 df.loc[:, 'REVENUE'] = pd.to_numeric(df['REVENUE'], errors='coerce')
