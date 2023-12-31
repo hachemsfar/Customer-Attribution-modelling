@@ -44,7 +44,7 @@ st.text(s)
 
 # Provide information about the data
 st.info("""
-This overview of the DataFrame helps in understanding the initial data structure, including key columns like Customer ID, Session ID, Timestamp of Touchpoints, Marketing Channel, and Revenue.
+This DataFrame contains 13,304 rows and 5 columns. It consists of data about customer interactions, including customer IDs, session IDs, timestamp of touchpoints, marketing channels, and revenue. The DataFrame has 1142 non-null values for revenue, indicating that not all customers generated revenue.
 """)
 
 # Filter and prepare the revenue data
@@ -73,7 +73,7 @@ with col2:
     st.pyplot()
 
 st.info("""
-The pie charts provide a visual comparison between revenue distribution and customer distribution across different marketing channels. This visualization is crucial for identifying which channels are most effective in revenue generation versus customer reach.
+The pie charts show revenue distribution and customer distribution by marketing channel. The top revenue channels are Direct NON-BRAND and Referral, while the top customer channels are SEO_BRA and Referral.
 """)
 
 # Time Series Analysis of Touchpoints
@@ -88,7 +88,7 @@ plt.ylabel('Number of Touchpoints')
 st.pyplot()
 
 st.info("""
-The time series analysis highlights the fluctuations in customer touchpoints over time. A significant increase in interactions is observed during the Christmas holidays, suggesting a seasonal impact on customer engagement.
+The line chart shows the number of touchpoints over time. As you can see, there are more touchpoints during the Christmas holiday (between 23 December and 7 January).
 """)
 
 # Further Data Exploration Using All Columns
@@ -150,6 +150,4 @@ ax.set_ylabel('Frequency')
 # Display the plot in Streamlit
 st.pyplot(fig)
 
-st.info("""
-The histogram indicates a high concentration of customers with only one session, suggesting that a majority of the customer base might be engaging in one-time interactions. This finding can be pivotal for strategies focusing on customer retention and repeated engagement.
-""")
+st.info("The histogram indicates a high concentration of customers with only one session, suggesting that a majority of the customer base might be engaging in one-time interactions. This finding can be pivotal for strategies focusing on customer retention and repeated engagement.")
