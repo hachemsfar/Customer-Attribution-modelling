@@ -130,3 +130,5 @@ ax.set_ylabel('Frequency')
 
 # Display the plot in Streamlit
 st.pyplot(fig)
+
+st.info("Most customers (70%) have only 1 session during this period")
