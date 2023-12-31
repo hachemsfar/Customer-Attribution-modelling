@@ -151,7 +151,7 @@ ax.set_ylabel('Frequency')
 st.pyplot(fig)
 
 
-st.text("### References:")
+st.header("References:")
 st.markdown("- **Streamlit Documentation:** [Streamlit Docs](https://docs.streamlit.io/)")
 st.markdown("- **Pandas Documentation:** [Pandas Docs](https://pandas.pydata.org/pandas-docs/stable/)")
 st.markdown("- **Matplotlib Documentation:** [Matplotlib Docs](https://matplotlib.org/stable/contents.html)")
