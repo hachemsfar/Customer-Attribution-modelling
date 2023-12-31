@@ -150,11 +150,12 @@ ax.set_ylabel('Frequency')
 # Display the plot in Streamlit
 st.pyplot(fig)
 
+st.info("The histogram indicates a high concentration of customers with only one session, suggesting that a majority of the customer base might be engaging in one-time interactions. This finding can be pivotal for strategies focusing on customer retention and repeated engagement.")
+
+
 
 st.header("References:")
 st.markdown("- **Streamlit Documentation:** [Streamlit Docs](https://docs.streamlit.io/)")
 st.markdown("- **Pandas Documentation:** [Pandas Docs](https://pandas.pydata.org/pandas-docs/stable/)")
 st.markdown("- **Matplotlib Documentation:** [Matplotlib Docs](https://matplotlib.org/stable/contents.html)")
 st.markdown("- **Seaborn Documentation:** [Seaborn Docs](https://seaborn.pydata.org/)")
-
-st.info("The histogram indicates a high concentration of customers with only one session, suggesting that a majority of the customer base might be engaging in one-time interactions. This finding can be pivotal for strategies focusing on customer retention and repeated engagement.")
