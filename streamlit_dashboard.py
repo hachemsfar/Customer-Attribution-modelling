@@ -51,6 +51,10 @@ df = data[data['REVENUE'].notnull() & (data['REVENUE'] != '')]
 df.loc[:, 'REVENUE'] = pd.to_numeric(df['REVENUE'], errors='coerce')
 revenue_by_channel = df.groupby('MARKETINGCHANNEL')['REVENUE'].sum().reset_index()
 
+# Set custom color palette for Seaborn plots
+custom_palette = "coolwarm"  # Using a named palette
+sns.set_palette(custom_palette)
+
 # Plotting Revenue Attribution by Marketing Channel
 col1, col2 = st.columns(2)
 with col1:
@@ -71,6 +75,8 @@ The pie charts show revenue distribution and customer distribution by marketing 
 
 # Time Series Analysis of Touchpoints
 st.subheader('Time Series Analysis of Touchpoints (Daily)')
+data['TIMESTAMP_TOUCHPOINT'] = pd.to_datetime(data['TIMESTAMP_TOUCHPOINT'], errors='coerce')
+data.set_index('TIMESTAMP_TOUCHPOINT').resample('D').size().plot()
 fig = px.line(data, x='TIMESTAMP_TOUCHPOINT', title='Number of Touchpoints Over Time (Daily)')
 fig.add_shape(dict(type='line', x0='2019-12-23', x1='2020-01-07', y0=0, y1=1, line=dict(color='green', width=2, dash='dash')))
 st.plotly_chart(fig)
@@ -83,21 +89,36 @@ The line chart shows the number of touchpoints over time. As you can see, the to
 st.subheader('Distribution of Touchpoints by Year/Month/Hour of Day')
 data['TIMESTAMP_TOUCHPOINT'] = pd.to_datetime(data['TIMESTAMP_TOUCHPOINT'], errors='coerce')
 
-time_component = st.selectbox("Choose time component:", ["Year", "Month", "Hour", "Weekday"])
+# Extracting date components from 'TIMESTAMP_TOUCHPOINT'
+data['YEAR'] = data['TIMESTAMP_TOUCHPOINT'].dt.year
+data['MONTH'] = data['TIMESTAMP_TOUCHPOINT'].dt.month
+data['DAY'] = data['TIMESTAMP_TOUCHPOINT'].dt.day
+data['HOUR'] = data['TIMESTAMP_TOUCHPOINT'].dt.hour
+data['WEEKDAY'] = data['TIMESTAMP_TOUCHPOINT'].dt.day_name()
+
+time_component = st.selectbox("Choose time component:", ["Year", "Month", "Hour", "WeekDay"])
 
 # Analyzing distribution of touchpoints over different time components
 if time_component == "Year":
-    fig = px.histogram(data, x='YEAR', title='Distribution of Touchpoints by Year')
-    st.plotly_chart(fig)
+    fig, ax = plt.subplots(figsize=(11, 7))
+    sns.countplot(x='YEAR', data=data, ax=ax)
+    ax.set_title('Distribution of Touchpoints by Year')
+    st.pyplot(fig)
 elif time_component == "Month":
-    fig = px.histogram(data, x='MONTH', title='Distribution of Touchpoints by Month')
-    st.plotly_chart(fig)
+    fig, ax = plt.subplots(figsize=(11, 7))
+    sns.countplot(x='MONTH', data=data, ax=ax)
+    ax.set_title('Distribution of Touchpoints by Month')
+    st.pyplot(fig)
 elif time_component == "Hour":
-    fig = px.histogram(data, x='HOUR', title='Distribution of Touchpoints by Hour of Day')
-    st.plotly_chart(fig)
-elif time_component == "Weekday":
-    fig = px.histogram(data, x='WEEKDAY', title='Distribution of Touchpoints by Day of the week')
-    st.plotly_chart(fig)
+    fig, ax = plt.subplots(figsize=(11, 7))
+    sns.countplot(x='HOUR', data=data, ax=ax)
+    ax.set_title('Distribution of Touchpoints by Hour of Day')
+    st.pyplot(fig)
+elif time_component == "WeekDay":
+    fig, ax = plt.subplots(figsize=(11, 7))
+    sns.countplot(x='WEEKDAY', data=data, ax=ax)
+    ax.set_title('Distribution of Touchpoints by Day of the week')
+    st.pyplot(fig)
 
 st.info("""
 - Customer engagement is highest during the end of the year.
@@ -105,19 +126,23 @@ st.info("""
 - Customer engagement is highest during the weekend.
 """)
 
-# Analyzing the number of sessions per customer
+# Analyzing the number of sessions per customer"
 sessions_per_customer = data.groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
 
 st.subheader('Distribution of Number of Sessions per Customer')
 
-# Plotting with Plotly Express
+# Plotting with Matplotlib
 fig = px.histogram(sessions_per_customer, x='SESSIONID', nbins=50, title='Distribution of Number of Sessions per Customer')
 fig.update_layout(xaxis=dict(range=[0, 10]), title='Distribution of Number of Sessions per Customer', xaxis_title='Number of Sessions', yaxis_title='Frequency')
 st.plotly_chart(fig)
 
+
 st.info("The histogram indicates a high concentration of customers with only one session, suggesting that a majority of the customer base might be engaging in one-time interactions. This finding can be pivotal for strategies focusing on customer retention and repeated engagement.")
+
+
 
 st.header("References:")
 st.markdown("- **Streamlit Documentation:** [Streamlit Docs](https://docs.streamlit.io/)")
 st.markdown("- **Pandas Documentation:** [Pandas Docs](https://pandas.pydata.org/pandas-docs/stable/)")
-st.markdown("- **Plotly Express Documentation:** [Plotly Express Docs](https://plotly.com/python/plotly-express/)")
+st.markdown("- **Matplotlib Documentation:** [Matplotlib Docs](https://matplotlib.org/stable/contents.html)")
+st.markdown("- **Seaborn Documentation:** [Seaborn Docs](https://seaborn.pydata.org/)")
