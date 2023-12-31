@@ -104,9 +104,21 @@ elif time_component == "Hour":
     ax.set_title('Distribution of Touchpoints by Hour of Day')
     st.pyplot(fig)
 
-penguins = sns.load_dataset("penguins")
 
-st.title("Hello")
-fig = sns.pairplot(penguins, hue="species")
+# Analyzing the number of sessions per customer
+sessions_per_customer = data.groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
+
+st.subheader('Distribution of Number of Sessions per Customer')
+
+# Plotting with Matplotlib
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.hist(sessions_per_customer, bins=50, edgecolor='black', alpha=0.7)
+
+ax.set_xlim(0, 10)
+
+ax.set_title('Distribution of Number of Sessions per Customer')
+ax.set_xlabel('Number of Sessions')
+ax.set_ylabel('Frequency')
+
+# Display the plot in Streamlit
 st.pyplot(fig)
-
