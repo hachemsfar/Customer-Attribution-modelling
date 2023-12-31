@@ -105,13 +105,16 @@ elif time_component == "Hour":
     st.pyplot(fig)
 
 # Analyzing the number of sessions per customer
-sessions_per_customer=data2[['CUSTOMERID','SESSIONID']].dropna().groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
-with pd.option_context('mode.use_inf_as_null', True):
-    st.subheader('Distribution of Number of Sessions per Customer')
-    plt.figure(figsize=(10, 6))
-    sns.histplot(sessions_per_customer, bins=50, kde=False)
-    plt.xlim(0, 10)
-    plt.title('Distribution of Number of Sessions per Customer')
-    plt.xlabel('Number of Sessions')
-    plt.ylabel('Frequency')
-    st.pyplot()
+sessions_per_customer = data.groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
+st.subheader('Distribution of Number of Sessions per Customer')
+
+plt.figure(figsize=(10, 6))
+sns.histplot(sessions_per_customer, bins=50, kde=False)
+
+plt.xlim(0, 10)
+
+plt.title('Distribution of Number of Sessions per Customer')
+plt.xlabel('Number of Sessions')
+plt.ylabel('Frequency')
+
+st.pyplot(plt)
