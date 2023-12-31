@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import io
+import seaborn as sns
 
 # Set Streamlit page configuration
 st.set_page_config(
