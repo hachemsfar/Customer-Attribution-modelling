@@ -22,6 +22,8 @@ hide_streamlit_style = """
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 # Load the data from the provided file
 file_path = 'Customerattributiondata.csv'
 data = pd.read_csv(file_path, delimiter='\t')
