@@ -27,6 +27,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 # Load the data from the provided file
 file_path = 'Customerattributiondata.csv'
 data = pd.read_csv(file_path, delimiter='\t')
+data2=data.copy()
 
 # Display the first few rows of the dataset to understand its structure
 st.subheader('DataFrame Overview')
@@ -104,7 +105,7 @@ elif time_component == "Hour":
     st.pyplot(fig)
 
 # Analyzing the number of sessions per customer
-sessions_per_customer=data[['CUSTOMERID','SESSIONID']].dropna().groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
+sessions_per_customer=data2[['CUSTOMERID','SESSIONID']].dropna().groupby('CUSTOMERID')['SESSIONID'].nunique().sort_values(ascending=False)
 
 st.subheader('Distribution of Number of Sessions per Customer')
 plt.figure(figsize=(10, 6))
